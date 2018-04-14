@@ -1,25 +1,31 @@
 #!/bin/bash
 
-# bashbot, the Telegram bot written in bash.
-# Written by Drew (@topkecleon) and Daniil Gentili (@danogentili).
-# Also contributed: JuanPotato, BigNerd95, TiagoDanin, iicc1.
+# bashbot，用bash写的电报机器人。
+# 由Drew（@topkecleon）和Daniil Gentili（@danogentili）撰写。
+# 也有贡献：JuanPotato，BigNerd95，TiagoDanin，iicc1。
 # https://github.com/topkecleon/telegram-bot-bash
 
-# Depends on JSON.sh (http://github.com/dominictarr/JSON.sh) (MIT/Apache),
-# and on tmux (http://github.com/tmux/tmux) (BSD).
-# This file is public domain in the USA and all free countries.
-# Elsewhere, consider it to be WTFPLv2. (wtfpl.net/txt/copying)
+# 取决于JSON.sh（http://github.com/dominictarr/JSON.sh）（MIT / Apache），
+# 和tmux（http://github.com/tmux/tmux）（BSD）。
+# 此文件在美国和所有免费的国家为公共领域。
+# 另外，考虑它是WTFPLv2。（wtfpl.net/txt/copying）
+
+# 初雪（hatsuyuki280）修改版，目前暂时定位为进行一些基础的汉化
+# 并进行少许操作上的优化（如果可能的话）
+# 更新地址请访问： https://github.com/topkecleon/telegram-bot-bash
+# 增加部分注释
 
 if [ ! -f "JSON.sh/JSON.sh" ]; then
-	echo "You did not clone recursively! Downloading JSON.sh..."
+	echo "也许你需要重新进行克隆或拉取，找不到JSON.sh
+	我们将代替你进行这个操作"
 	git clone http://github.com/dominictarr/JSON.sh
-	echo "JSON.sh has been downloaded. Proceeding."
+	echo "JSON.sh 已完成下载。正在处理，请稍后。"
 fi
 
 if [ ! -f "token" ]; then
 	clear
 	echo -e '\e[0;31mTOKEN MISSING.\e[0m'
-	echo "PLEASE WRITE YOUR TOKEN HERE"
+	echo "请在这里填写你的token "
 	read token
 	echo "$token" >> token
 fi
@@ -433,10 +439,10 @@ case "$1" in
 		rm -r /tmp/$3
 		;;
 	"count")
-		echo "A total of $(wc -l count | sed 's/count//g')users used me."
+		echo "共计 $(wc -l count | sed 's/count//g')个用户正在使用咱"
 		;;
 	"broadcast")
-		echo "Sending the broadcast $* to $(wc -l count | sed 's/count//g')users."
+		echo "发送一个广播 $* 给 $(wc -l count | sed 's/count//g')个用户."
 		[ $(wc -l count | sed 's/ count//g') -gt 300 ] && sleep="sleep 0.5"
 		shift
 		for f in $(cat count);do send_message ${f//COUNT} "$*"; $sleep;done
@@ -444,15 +450,15 @@ case "$1" in
 	"start")
 		clear
 		tmux kill-session -t $ME&>/dev/null
-		tmux new-session -d -s $ME "bash $SCRIPT startbot" && echo -e '\e[0;32mBot started successfully.\e[0m'
-		echo "Tmux session name $ME" || echo -e '\e[0;31mAn error occurred while starting the bot. \e[0m'
+		tmux new-session -d -s $ME "bash $SCRIPT startbot" && echo -e '\e[0;32m已成功启动\e[0m'
+		echo "已存在一个名为 $ME 的Tmux会话" || echo -e '\e[0;31m在启动过程中发生了稍许错误\e[0m'
 		send_markdown_message "${CHAT[ID]}" "*Bot started*"
 		;;
 	"kill")
 		clear
 		tmux kill-session -t $ME &>/dev/null
 		send_markdown_message "${CHAT[ID]}" "*Bot stopped*"
-		echo -e '\e[0;32mOK. Bot stopped successfully.\e[0m'
+		echo -e '\e[0;32m已成功停止机器人\e[0m'
 		;;
 	"help")
 		clear
@@ -465,8 +471,8 @@ case "$1" in
 		echo "OK"
 		;;
 	*)
-		echo -e '\e[0;31mBAD REQUEST\e[0m'
-		echo -e '\e[0;31mAvailable arguments: outproc, count, broadcast, start, kill, help, attach\e[0m'
+		echo -e '\e[0;31m错误的参数\e[0m'
+		echo -e '\e[0;31m可用参数：outproc, count, broadcast, start, kill, help, attach\e[0m'
 		;;
 esac
 

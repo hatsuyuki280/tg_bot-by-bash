@@ -1,16 +1,21 @@
 #!/bin/bash
-# Edit your commands in this file.
+# 请在这里编辑你的机器人命令
 
 # This file is public domain in the USA and all free countries.
 # Elsewhere, consider it to be WTFPLv2. (wtfpl.net/txt/copying)
 
+# 初雪（hatsuyuki280）修改版，目前暂时定位为进行一些基础的汉化
+# 并进行少许操作上的优化（如果可能的话）
+# 更新地址请访问： https://github.com/topkecleon/telegram-bot-bash
+# 增加部分注释
+
 if [ "$1" = "source" ];then
-	# Place the token in the token file
+	# 请将token扔进“token”文件
 	TOKEN=$(cat token)
-	# Set INLINE to 1 in order to receive inline queries.
-	# To enable this option in your bot, send the /setinline command to @BotFather.
+	# 将INLINE设置为1以接收内嵌查询。
+	# 要在您的机器人中启用此选项，请将/ setinline命令发送到@BotFather。
 	INLINE=0
-	# Set to .* to allow sending files from all locations
+	# 设置为 .* 以允许从任意位置发送文件
 	FILE_REGEX='/home/user/allowed/.*'
 else
 	if ! tmux ls | grep -v send | grep -q $copname; then
@@ -60,7 +65,7 @@ else
 It features background tasks and interactive chats, and can serve as an interface for CLI programs.
 It currently can send, recieve and forward messages, custom keyboards, photos, audio, voice, documents, locations and video files.
 *Available commands*:
-*• /start*: _Start bot and get this message_.
+*• /start*: _启动bot并收到这条消息_.
 *• /info*: _Get shorter info message about this bot_.
 *• /question*: _Start interactive chat_.
 *• /cancel*: _Cancel any currently running interactive chats_.
